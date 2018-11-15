@@ -1,6 +1,26 @@
 (function ($) {
   'use strict';
 
+  function copyToClipboard(event) {
+
+    var parentTarget = event.currentTarget.parentNode;
+    var target = event.currentTarget;
+    var range = document.createRange();
+    range.selectNode(parentTarget);
+    window.getSelection().addRange(range);
+
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? ' successful' : ' unsuccessful';
+        notify('info','Copy to clipboard: ' + $(parentTarget).text() + msg, 'info');
+        $(target).closest(".icon-clipboard5").removeClass('icon-clipboard5').addClass('icon-checkmark');
+
+    }catch(err) {
+        //
+    }
+    window.getSelection().removeAllRanges();
+}
+
   Vue.component('highlight', {
     props: {
       text: ''
@@ -11,7 +31,7 @@
         var text = this.text
         if (code) {
           for (var n = 0; n < code.length; n++) {
-            text = text.replace(code[n], '<span class="copyclipboard"><span class="highlight" >' + code[n] + '</span><a class="glyphicon glyphicon-share" title="Копировать" onclick="copyToClipboard(event)"></a> </span> ');
+            text = text.replace(code[n], '<span class="copyclipboard"><span class="highlight" >' + code[n] + '</span><a class="on-icon icon-shareable" title="Copy" onclick="copyToClipboard(event)"></a> </span> ');
           }
         }
         return text;
@@ -19,6 +39,7 @@
     },
     template: '<span v-html="formatedText"></span>'
   });
+  
 
   Vue.component('switch-button', {
     // camelCase in JavaScript

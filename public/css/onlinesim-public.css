@@ -344,3 +344,16 @@
 .icon-phone:before { content: '\e800'; } /* '' */
 .icon-arrows-cw:before { content: '\e801'; } /* '' */
 .icon-comment-alt:before { content: '\f27a'; } /* '' */
+.icon-shareable:before { content: '\ea25'; } /* '' */
+
+span.highlight {
+  background-color: #FFFFFF;
+  font-weight: normal;
+  color: #2a2a2a;
+  border: 1px solid #DEDEDE;
+  border-radius: 4px;
+  padding: 2px 3px;
+  box-sizing: content-box;
+  height: 13px;
+  font-size: 13px;
+}

@@ -57,7 +57,7 @@
       '<div class="switch__btn" ></div></div></span>'
   });
 
-  Vue.component('pg-paginate', {
+  Vue.component('paginate', {
     props: {
       total_page: {
         type: Number,
@@ -70,11 +70,7 @@
       offset: {
         type: Number,
         default: 1
-      },
-      input: {
-        type: Boolean,
-        default: false
-      },
+      }
     },
     computed: {
       pages: function () {
@@ -107,21 +103,20 @@
         this.$emit('input', page);
       }
     },
-    template: '<nav>' +
-      '<ul class="pagination" style="display: table; margin: 0 auto; padding: 10px">' +
-      '<li v-if="value > 1"><a href="#" aria-label="Previous" v-on:click="changePage(1, $event)"><span aria-hidden="true">&laquo;</span></a></li>' +
+    template: '<ul class="free-numbers__pagination-block">' +
+      '<li v-if="value > 1">' +
+      '<a href="#" aria-label="Previous" @click="changePage(1, $event)">' +
+      '<span aria-hidden="true">&laquo;</span>' +
+      '</a>' +
+      '</li>' +
+      '<li v-for="num in pages" :key="num">' +
+      '<a href="#" @click.prevent="changePage(num, $event)" :class="{active: num === value}">{{ num }}</a>' +
+      '</li>' +
 
-      '<li v-if="value > 1" style="position: relative;float: left;padding-top: 7px;padding-left: 5px;padding-right: 5px;"> ... </li>' +
-
-      '<li v-for="num in pages" v-bind:class="{\'active\': num == value}"><a href="#" v-on:click="changePage(num, $event)">{{ num }}</a></li>' +
-
-      '<li v-if="value != total_page && total_page > 0" style="position: relative;float: left;padding-top: 7px;padding-left: 5px;padding-right: 5px;"> ... </li>' +
-
-      '<li v-if="value != total_page && total_page > 0"><a href="#" aria-label="Next" v-on:click="changePage(total_page, $event)"><span aria-hidden="true">&raquo;</span></a></li>' +
-      '<li style="padding-left: 3px"><input type="number" v-model="value" class="form-control form-control-lg" style="width: 50px; display: initial !important; padding: 2px 7px;" v-if="input" number/></li>' +
-
-      '</ul>' +
-      '</nav>'
+      '<li>' +
+      '<a href="#" aria-label="Next" @click="changePage(total_page, $event)"><span aria-hidden="true">»</span></a>' +
+      '</li>' +
+      '</ul>'
   });
 
 

@@ -113,129 +113,76 @@ class Onlinesim_Public
 
   public function shortcode()
   {
-    return '<div id="on"><div class="panel panel-flat">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 10px">
-                        <div class="col-md-4 col-sm-4 col-xs-12 no-border" v-for="item in countries">
-                            <button class="btn btn-block btn-country" :class="{select: item.country === country}" @click="country = item.country">
-                                <img :src="\'https://onlinesim.ru/assets/images/flags/\'+item.country+\'.png\'" class="flag">
-                                <span v-text="item.country_text"></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    return ' <div id="on"><div class="free-numbers">
+    <div class="free-numbers__countries">
+      <div class="free-numbers__countries-country" v-for="item in countries" :key="item.country">
+        <button :class="{active: item.country === country}" @click="country = item.country">
+          <img :src="\'https://onlinesim.ru/assets/images/flags/\' + item.country + \'.png\'" class="flag"> 
+          <span>{{ item.country_text }}</span>      
+        </button>
+      </div>
+    </div>
+    <div class="free-numbers__numbers-block">
+      <div class="free-numbers__numbers-block__title">
+        <h3>Выберите номер</h3>
+        <p>
+          <a href="#" @click.prevent="loadPhoneList()"><i class="icon-arrows-cw"></i></a>
+        </p>
+      </div>
+      <div class="free-numbers__list">
+        <ul v-if="numbersList.length > 0">
+          <li v-for="(date, id) in numbersList" :key="id">
+            <a href="" @click.prevent="selectNumbers = date" :class="{active: date.number === selectNumbers.number}">
+              <i class="on-icon icon-phone"></i>
+              <span v-text="phonemask(date.number, date.country)" onclick="copyToClipboard(event)"></span>
+            </a>
+          </li>
+        </ul>
+        <ul v-if="numbersList.length === 0">
+          <li>
+            <a href="">No numbers</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="free-numbers__messages-block">
+      <div class="free-numbers__messages-block__title">
+        <h3>Все сообщения</h3>
+        <p>
+          Замена номера - <span v-text="selectNumbers.data_humans"></span>
+          <a href="" @click.prevent="loadMessageList()">
+            <i class="icon-arrows-cw"></i>
+          </a>
+        </p>
+      </div>
+      <div class="free-numbers__list">
+        <ul v-if="messageList.length > 0">
+          <li v-for="(message, id) in messageList" :key="id">
+            <div>
+              <i class="icon-comment-alt" :class="{muted: message.in_number === \'notify\'}"></i>
             </div>
-        </div>
-
-        <hr>
-
-
-        <div class="panel panel-flat" >
-            <div class="panel-body">
-                <div class="row">
-
-                    <div class="col-md-3">
-                        <div class="panel panel-success" id="refreshPhoneList" style="position: static; zoom: 1;">
-                            <div class="col-md-12">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Number</h3>
-                                    <div style="position: absolute;top: 16px;right: 16px;">
-                                        <div class="form-group" style="padding-top: 10px;">
-                                            <ul class="icons-list">
-                                                <li>
-                                                    <a @click="loadPhoneList()">
-                                                        <i class="glyphicon glyphicon-refresh"
-                                                           style="font-weight: bold"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="sidebar-resive" id="menu-list">
-
-                                    <ul class="navigation navigation-alt navigation-accordion no-padding-top no-padding-bottom list-unstyled">
-                                        <li v-for="date in numbersList">
-                                            <a @click="selectNumbers = date"
-                                               :class="date.number == selectNumbers.number ? \'active\' : \'\'">
-                                              
-                                                <span class="copyclipboard">
-                                                         <strong v-text="phonemask(date.number, date.country)">+7 (965) 384-7678</strong>
-                                                           <span class="icon-clipboard5" title="Copy" onclick="copyToClipboard(event)"></span>
-                                                    </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <span style="text-align: center; display: block" v-if="numbersList.length === 0"> NO NUMBERS</span>
-
-                                </div>
-                            </div>
-
-                   
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="panel panel-default" id="refreshMessageList"
-                             style="position: static; zoom: 1;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">All messages</h3>
-                                <div class="time-zamena">
-                                    <div class="form-group" style="padding-top: 10px;">
-                                        <ul class="icons-list">
-                                            <li>Number replace: <b><span v-text="selectNumbers.data_humans"></span></b></li>
-                                            <li>
-                                                <a @click="loadMessageList()">
-                                                    <i class="glyphicon glyphicon-refresh" style="font-weight: bold"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <ul class="media-list media-list-bordered">
-                                    <li class="media" v-for="date in messageList"
-                                        :class="(date.in_number == \'notify\') ? \'no-active\' : \'\'">
-                                        <div class="media-left">
-                                                    <span class="mt-3 cursor-default btn border-success text-success btn-flat btn-icon btn-rounded ">
-                                                        <img src="https://onlinesim.ru/assets/images/new/message.png" alt="message" v-if="date.in_number !== \'notify\'">
-                                                        <img src="https://onlinesim.ru/assets/images/new/no-message.png" alt="message" v-else>
-                                                    </span>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading">
-                                                <span v-text="date.in_number"></span>
-                                                <span class="media-annotation dotted"
-                                                      v-text="date.data_humans"></span>
-                                            </h6>
-
-                                            <highlight :text="date.text" v-if="date.in_number !== \'notify\'"></highlight>
-                                            <span v-else>nad<a href="#regulations">pad</a> </span>
-                                        </div>
-                                    </li>
-
-                                    <span style="text-align: center; display: block"
-                                        v-if="messageList.length == 0"> NO MESSAGES </span>
-
-
-                                </ul>
-                            </div>
-                            <pg-paginate v-if="messageList.length > 0" v-model="selectpage"
-                                         :total_page="totalpages" :offset="4"></pg-paginate>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div style="text-align: center">
-                    <hr>
-                    <a v-if="!infoblock" @click="loadIgnoreList" name="regulations">RULES</a>
-                    <span class="hide-info" v-else v-html="infoblock"></span>
-                </div>
+            <div>
+              <h4>
+                <span :class="{muted: message.in_number === \'notify\'}">{{ message.in_number }}</span>
+                <span class="dotted">{{ message.data_humans }}</span>
+              </h4>
+              <span v-if="message.in_number !== \'notify\'">{{ message.text }}</span>
+              <span v-else class="muted">Смс с данного сервиса не принимается</span>
             </div>
-        </div></div>';
+          </li>
+        </ul>
+        <ul v-else>
+          <li style="justify-content: center;">
+            <a href="">Нет сообщений</a>
+          </li>
+        </ul>
+      </div>
+      <div class="free-numbers__pagination">
+        <paginate v-if="messageList.length > 0" v-model="selectpage" :total_page="totalpages" :offset="4"></paginate>
+      </div>
+    </div>
+  </div>
+  </div>';
   }
 
 }

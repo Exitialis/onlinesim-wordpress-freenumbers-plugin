@@ -166,7 +166,7 @@ class Onlinesim_Public
                 <span :class="{muted: message.in_number === \'notify\'}" v-text="message.in_number"></span>
                 <span class="dotted" v-text="message.data_humans"></span>
               </h4>
-              <highlight :text="message.text" v-if="message.in_number === \'notify\'"></highlight>
+              <highlight :text="message.text" v-if="message.in_number !== \'notify\'"></highlight>
               <span v-else class="muted">SMS with this service will not be accepted</span>
             </div>
           </li>

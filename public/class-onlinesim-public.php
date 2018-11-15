@@ -118,13 +118,13 @@ class Onlinesim_Public
       <div class="free-numbers__countries-country" v-for="item in countries" :key="item.country">
         <button :class="{active: item.country === country}" @click="country = item.country">
           <img :src="\'https://onlinesim.ru/assets/images/flags/\' + item.country + \'.png\'" class="flag"> 
-          <span>{{ item.country_text }}</span>      
+          <span v-text="item.country_text"></span>      
         </button>
       </div>
     </div>
     <div class="free-numbers__numbers-block">
       <div class="free-numbers__numbers-block__title">
-        <h3>Выберите номер</h3>
+        <h3>Change number</h3>
         <p>
           <a href="#" @click.prevent="loadPhoneList()"><i class="icon-arrows-cw"></i></a>
         </p>
@@ -147,9 +147,9 @@ class Onlinesim_Public
     </div>
     <div class="free-numbers__messages-block">
       <div class="free-numbers__messages-block__title">
-        <h3>Все сообщения</h3>
+        <h3>All Messages</h3>
         <p>
-          Замена номера - <span v-text="selectNumbers.data_humans"></span>
+          Replace number - <span v-text="selectNumbers.data_humans"></span>
           <a href="" @click.prevent="loadMessageList()">
             <i class="icon-arrows-cw"></i>
           </a>
@@ -163,17 +163,17 @@ class Onlinesim_Public
             </div>
             <div>
               <h4>
-                <span :class="{muted: message.in_number === \'notify\'}">{{ message.in_number }}</span>
-                <span class="dotted">{{ message.data_humans }}</span>
+                <span :class="{muted: message.in_number === \'notify\'}" v-text="message.in_number"></span>
+                <span class="dotted" v-text="message.data_humans"></span>
               </h4>
-              <span v-if="message.in_number !== \'notify\'">{{ message.text }}</span>
-              <span v-else class="muted">Смс с данного сервиса не принимается</span>
+              <highlight :text="message.text" v-if="message.in_number === \'notify\'"></highlight>
+              <span v-else class="muted">SMS with this service will not be accepted</span>
             </div>
           </li>
         </ul>
         <ul v-else>
           <li style="justify-content: center;">
-            <a href="">Нет сообщений</a>
+            <a href="">No messages</a>
           </li>
         </ul>
       </div>

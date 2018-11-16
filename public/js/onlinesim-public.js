@@ -173,6 +173,11 @@
         countries: {}
 
       },
+      computed: {
+        lang() {
+          return document.documentElement.lang.split('-')[0]
+        }
+      },
       watch: {
         selectNumbers: function (val) {
           this.loadMessageList();
@@ -204,7 +209,7 @@
         loadCountryList: function () {
           var self = this;
           // getFreeCountryList
-          axios.get('https://onlinesim.ru/api/getFreeCountryList?lang=' + document.documentElement.lang).then(function (response) {
+          axios.get('https://onlinesim.ru/api/getFreeCountryList?lang=' + this.lang).then(function (response) {
             if (response.data.response == 1) {
               self.countries = response.data.countries
             }
@@ -217,7 +222,7 @@
           this.selectpage = 1;
           var self = this;
           this.refreshImage('#refreshPhoneList', true);
-          axios.get('https://onlinesim.ru/api/getFreePhoneList?country=' + self.country + '&lang=' + document.documentElement.lang).then(function (response) {
+          axios.get('https://onlinesim.ru/api/getFreePhoneList?country=' + self.country + '&lang=' + this.lang).then(function (response) {
             if (response.data.response == 1) {
               if (response.data.numbers.length > 0) {
                 self.numbersList = response.data.numbers;
@@ -237,7 +242,7 @@
         },
         loadIgnoreList: function () {
           var self = this;
-          axios.get('https://onlinesim.ru/api/getIgnoreList?lang=' + document.documentElement.lang).then(function (response) {
+          axios.get('https://onlinesim.ru/api/getIgnoreList?lang=' + this.lang).then(function (response) {
             self.infoblock = response.data.text;
           }).catch(function (error) {
             console.log(error);
@@ -247,7 +252,7 @@
         loadMessageList: function () {
           var self = this;
           this.refreshImage('#refreshMessageList', true);
-          let url = "https://onlinesim.ru/api/getFreeMessageList?page=" + this.selectpage + "&phone=" + this.selectNumbers.number + '&lang=' + document.documentElement.lang;
+          let url = "https://onlinesim.ru/api/getFreeMessageList?page=" + this.selectpage + "&phone=" + this.selectNumbers.number + '&lang=' + this.lang;
           axios.get(url).then(function (response) {
             if (response.data.response == 1) {
               self.messageList = response.data.messages.data;

@@ -1,21 +1,39 @@
 (function ($) {
   'use strict';
 
-  function copyToClipboard(event) {
-    var parentTarget = event.currentTarget.parentNode;
-    var target = event.currentTarget;
-    var range = document.createRange();
-    range.selectNode(parentTarget);
-    window.getSelection().addRange(range);
+  function copyTextToClipboard(text) {
+    event.preventDefault();
+    let textArea = document.createElement("textarea");
+    textArea.style.position = "fixed";
+    textArea.style.padding = textArea.style.left = textArea.style.top = '0';
+    textArea.style.height = textArea.style.width = "2em";
+    textArea.style.boxShadow = textArea.style.outline = textArea.style.border = "none";
+    textArea.style.background = "transparent";
+
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
 
     try {
-        var successful = document.execCommand('copy');
+      var successful = document.execCommand('copy');
         // var msg = successful ? ' successful' : ' unsuccessful';
         // notify('info','Copy to clipboard: ' + $(parentTarget).text() + msg, 'info');
-        target.classList.remove("icon-shareable");
-    }catch(err) {}
-    window.getSelection().removeAllRanges();
-}
+        /* target.classList.remove("icon-shareable") */;
+      console.log(successful);
+      document.removeChild(textArea);
+    } catch (err) { }
+  }
+
+  function copyToClipboard(event) {
+    console.log(event.currentTarget.parentNode);
+    let target = event.currentTarget;
+    try {
+      copyTextToClipboard(event.currentTarget.parentNode.innerText);
+      target.classList.remove("icon-copy");
+    } catch (err) { }
+  }
+
+  window.copyToClipboard = copyToClipboard;
 
   Vue.component('highlight', {
     props: {
@@ -27,7 +45,7 @@
         var text = this.text
         if (code) {
           for (var n = 0; n < code.length; n++) {
-            text = text.replace(code[n], '<span class="copyclipboard"><span class="highlight" >' + code[n] + '</span><a id="icon-copy" class="on-icon icon-shareable" title="Copy" onclick="copyToClipboard(event)"></a> </span> ');
+            text = text.replace(code[n], '<span class="copyclipboard"><span class="highlight" >' + code[n] + '</span><a id="icon-copy" class="on-icon icon-copy" title="Copy" onclick="window.copyToClipboard(event)"></a> </span> ');
           }
         }
         return text;
@@ -35,7 +53,7 @@
     },
     template: '<span v-html="formatedText"></span>'
   });
-  
+
 
   Vue.component('switch-button', {
     // camelCase in JavaScript

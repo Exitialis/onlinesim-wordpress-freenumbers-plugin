@@ -343,8 +343,8 @@
  
 .icon-phone:before { content: '\e800'; } /* '' */
 .icon-arrows-cw:before { content: '\e801'; } /* '' */
+.icon-copy:before { content: '\f0c5'; } /* '' */
 .icon-comment-alt:before { content: '\f27a'; } /* '' */
-.icon-shareable:before { content: '\ea25'; } /* '' */
 
 span.highlight {
   background-color: #FFFFFF;

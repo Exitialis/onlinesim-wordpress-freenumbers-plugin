@@ -126,6 +126,8 @@ class Onlinesim
      */
     require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-onlinesim-public.php';
 
+    require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-onlinesim-colors.php';
+
     $this->loader = new Onlinesim_Loader();
 
   }
@@ -176,10 +178,17 @@ class Onlinesim
   {
 
     $plugin_public = new Onlinesim_Public($this->get_plugin_name(), $this->get_version());
+    $colors = new OnlinesimColors($this->get_plugin_name());
 
     add_shortcode($this->plugin_name, [$plugin_public, 'shortcode']);
     $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
     $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+    $this->loader->add_action('customize_register', $colors, 'registerCustomize');
+  }
+
+  public function test($wp_customize)
+  {
+    print_r($wp_customize);
   }
 
   /**

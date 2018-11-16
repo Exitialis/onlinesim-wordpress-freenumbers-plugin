@@ -56,6 +56,79 @@ class Onlinesim_Public
 
   }
 
+  private function getCustomCss()
+  {
+    ob_start();
+
+    $mutedColor = get_theme_mod('muted_color', '');
+    if (!empty($mutedColor)) {
+      ?>
+      .free-numbers .muted {
+        color: <?php echo $mutedColor; ?>;
+      }
+      <?php
+
+    }
+
+    $primary_color = get_theme_mod('primary_color', '');
+    if (!empty($primary_color)) {
+      ?>
+      .free-numbers__countries-country .active {
+        background-color: <?php echo $primary_color; ?>;
+        border: 1px solid <?php echo $primary_color; ?>;
+      }
+
+      .free-numbers__list i {
+        color: <?php echo $primary_color; ?>;
+      }
+
+      .free-numbers__list ul {
+        border-top: 4px solid <?php echo $primary_color; ?>;
+      }
+
+      .free-numbers__list ul li > a.active {
+        color: <?php echo $primary_color; ?>;
+      }
+
+      .free-numbers__pagination-block > li > a.active {
+        background-color: <?php echo $primary_color; ?>;
+      }
+      <?php
+
+    }
+
+    $borderColor = get_theme_mod('border_color', '');
+    if (!empty($borderColor)) {
+      ?>
+      .free-numbers__countries-country button {
+        border-color: <?php echo $borderColor; ?>
+      }
+      .free-numbers__list ul li {
+        border: 1px solid <?php echo $borderColor; ?>;
+      }
+      <?php
+
+    }
+
+    $hoverColor = get_theme_mod('hover_color', '');
+    if (!empty($hoverColor)) {
+      ?>
+      .free-numbers__countries-country button:hover {
+        background-color: <?php echo $hoverColor; ?>;
+      }
+      .free-numbers__list ul li > a.active {
+        background-color: <?php echo $hoverColor; ?>;
+      }
+      <?php
+
+    }
+
+
+
+    $css = ob_get_clean();
+    return $css;
+  }
+
   /**
    * Register the stylesheets for the public-facing side of the site.
    *
@@ -77,10 +150,8 @@ class Onlinesim_Public
      */
 
     if (has_shortcode($post->post_content, $this->plugin_name)) {
-      wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/onlinesim-public.css', array(), $this->version, 'all');
+      wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/onlinesim-public.css');
     }
-
-
   }
 
   /**
@@ -113,6 +184,12 @@ class Onlinesim_Public
 
   public function shortcode()
   {
+    wp_register_style('onlinesim-inline-style', false, array($this->plugin_name));
+    wp_enqueue_style('onlinesim-inline-style');
+    $custom_css = $this->getCustomCss();
+    wp_add_inline_style('onlinesim-inline-style', $custom_css);
+
+
     return ' <div id="on"><div class="free-numbers">
     <div class="free-numbers__countries">
       <div class="free-numbers__countries-country" v-for="item in countries" :key="item.country">
@@ -124,8 +201,8 @@ class Onlinesim_Public
     </div>
     <div class="free-numbers__numbers-block">
       <div class="free-numbers__numbers-block__title">
-        <h3>Change number</h3>
-        <p>
+        <h3 class="muted">Change number</h3>
+        <p class="muted">
           <a href="#" @click.prevent="loadPhoneList()"><i class="icon-arrows-cw"></i></a>
         </p>
       </div>
@@ -147,8 +224,8 @@ class Onlinesim_Public
     </div>
     <div class="free-numbers__messages-block">
       <div class="free-numbers__messages-block__title">
-        <h3>All Messages</h3>
-        <p>
+        <h3 class="muted">All Messages</h3>
+        <p class="muted">
           Replace number - <span v-text="selectNumbers.data_humans"></span>
           <a href="" @click.prevent="loadMessageList()">
             <i class="icon-arrows-cw"></i>

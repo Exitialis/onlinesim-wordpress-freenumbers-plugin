@@ -19,8 +19,4 @@ class Numbers_Widget extends WP_Widget
     echo __('Тест', 'onlinesim');
     echo $args['after_widget'];
   }
-
-
-
-
 }

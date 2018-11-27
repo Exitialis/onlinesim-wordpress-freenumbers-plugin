@@ -114,7 +114,6 @@
 
 .free-numbers__list i {
   color: #2196f3;
-  font-size: 2rem;
 }
 
 .free-numbers__list ul {
@@ -208,6 +207,9 @@
 }
 
 .free-numbers__messages-block .free-numbers__list > ul > li > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
 }

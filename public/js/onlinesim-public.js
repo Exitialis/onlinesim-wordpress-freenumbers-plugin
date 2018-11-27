@@ -137,8 +137,8 @@
       }
     },
     template: '<ul class="free-numbers__pagination-block">' +
-      '<li v-if="value > 1">' +
-      '<a href="#" aria-label="Previous" @click="changePage(1, $event)">' +
+      '<li>' +
+      '<a href="#" :disabled="value > 1" aria-label="Previous" @click="changePage(1, $event)">' +
       '<span aria-hidden="true">&laquo;</span>' +
       '</a>' +
       '</li>' +
@@ -147,7 +147,7 @@
       '</li>' +
 
       '<li>' +
-      '<a href="#" aria-label="Next" @click="changePage(total_page, $event)"><span aria-hidden="true">»</span></a>' +
+      '<a href="#" :disabled="value === total_page" aria-label="Next" @click="changePage(total_page, $event)"><span aria-hidden="true">»</span></a>' +
       '</li>' +
       '</ul>'
   });

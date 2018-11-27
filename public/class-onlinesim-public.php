@@ -123,6 +123,19 @@ class Onlinesim_Public
 
     }
 
+    $actionsColor = get_theme_mod('actions_color', '');
+    if (!empty($actionsColor)) {
+      ?>
+      .icon-arrows-cw {
+        color: <?php echo $actionsColor; ?>;
+      }
+      .icon-copy {
+        color: <?php echo $actionsColor; ?>;
+      }
+      .
+      <?php
+
+    }
 
 
     $css = ob_get_clean();
@@ -190,76 +203,7 @@ class Onlinesim_Public
     wp_add_inline_style('onlinesim-inline-style', $custom_css);
 
 
-    return ' <div id="on"><div class="free-numbers">
-    <div class="free-numbers__countries">
-      <div class="free-numbers__countries-country" v-for="item in countries" :key="item.country">
-        <button :class="{active: item.country === country}" @click="country = item.country">
-          <img :src="\'https://onlinesim.ru/assets/images/flags/\' + item.country + \'.png\'" class="flag"> 
-          <span v-text="item.country_text"></span>      
-        </button>
-      </div>
-    </div>
-    <div class="free-numbers__numbers-block">
-      <div class="free-numbers__numbers-block__title">
-        <h3 class="muted">Change number</h3>
-        <p class="muted">
-          <a href="#" @click.prevent="loadPhoneList()"><i class="icon-arrows-cw"></i></a>
-        </p>
-      </div>
-      <div class="free-numbers__list">
-        <ul v-if="numbersList.length > 0">
-          <li v-for="(date, id) in numbersList" :key="id">
-            <a href="" @click.prevent="selectNumbers = date" :class="{active: date.number === selectNumbers.number}">
-              <i class="on-icon icon-phone"></i>
-              <span v-text="phonemask(date.number, date.country)" onclick="copyToClipboard(event)"></span>
-            </a>
-          </li>
-        </ul>
-        <ul v-if="numbersList.length === 0">
-          <li>
-            <a href="">No numbers</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="free-numbers__messages-block">
-      <div class="free-numbers__messages-block__title">
-        <h3 class="muted">All Messages</h3>
-        <p class="muted">
-          Replace number - <span v-text="selectNumbers.data_humans"></span>
-          <a href="" @click.prevent="loadMessageList()">
-            <i class="icon-arrows-cw"></i>
-          </a>
-        </p>
-      </div>
-      <div class="free-numbers__list">
-        <ul v-if="messageList.length > 0">
-          <li v-for="(message, id) in messageList" :key="id">
-            <div>
-              <i class="icon-comment-alt" :class="{muted: message.in_number === \'notify\'}"></i>
-            </div>
-            <div>
-              <h4>
-                <span :class="{muted: message.in_number === \'notify\'}" v-text="message.in_number"></span>
-                <span class="dotted" v-text="message.data_humans"></span>
-              </h4>
-              <highlight :text="message.text" v-if="message.in_number !== \'notify\'"></highlight>
-              <span v-else class="muted">SMS with this service will not be accepted</span>
-            </div>
-          </li>
-        </ul>
-        <ul v-else>
-          <li style="justify-content: center;">
-            <a href="">No messages</a>
-          </li>
-        </ul>
-      </div>
-      <div class="free-numbers__pagination">
-        <paginate v-if="messageList.length > 0" v-model="selectpage" :total_page="totalpages" :offset="4"></paginate>
-      </div>
-    </div>
-  </div>
-  </div>';
+    return file_get_contents(__DIR__ . '/plugin.html');
   }
 
 }

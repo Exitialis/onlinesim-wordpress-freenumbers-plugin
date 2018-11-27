@@ -4,13 +4,17 @@ class OnlinesimColors
 {
   public function registerCustomize(WP_Customize_Manager $wp_customize)
   {
+    $wp_customize->add_section('onlinesim_plugin', [
+      'title' => 'Onlinesim plugin',
+    ]);
+
     $wp_customize->add_setting('muted_color', array(
       'default' => '#999999',
       'transport' => 'refresh',
     ));
 
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'muted_color', array(
-      'section' => 'colors',
+      'section' => 'onlinesim_plugin',
       'label' => esc_html__('Numbers plugin muted color', 'onlinesim'),
     )));
 
@@ -20,7 +24,7 @@ class OnlinesimColors
     ));
 
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color', array(
-      'section' => 'colors',
+      'section' => 'onlinesim_plugin',
       'label' => esc_html__('Numbers plugin primary color', 'onlinesim'),
     )));
 
@@ -30,7 +34,7 @@ class OnlinesimColors
     ));
 
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'border_color', array(
-      'section' => 'colors',
+      'section' => 'onlinesim_plugin',
       'label' => esc_html__('Numbers plugin border color', 'onlinesim'),
     )));
 
@@ -40,9 +44,17 @@ class OnlinesimColors
     ));
 
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'hover_color', array(
-      'section' => 'colors',
+      'section' => 'onlinesim_plugin',
       'label' => esc_html__('Numbers plugin hover color', 'onlinesim'),
     )));
 
+    $wp_customize->add_setting('actions_color', array(
+      'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'actions_color', array(
+      'section' => 'onlinesim_plugin',
+      'label' => esc_html__('Numbers plugin actions color', 'onlinesim'),
+    )));
   }
 }

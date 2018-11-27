@@ -19,13 +19,11 @@
         // var msg = successful ? ' successful' : ' unsuccessful';
         // notify('info','Copy to clipboard: ' + $(parentTarget).text() + msg, 'info');
         /* target.classList.remove("icon-shareable") */;
-      console.log(successful);
       document.removeChild(textArea);
     } catch (err) { }
   }
 
   function copyToClipboard(event) {
-    console.log(event.currentTarget.parentNode);
     let target = event.currentTarget;
     try {
       copyTextToClipboard(event.currentTarget.parentNode.innerText);
@@ -156,7 +154,6 @@
 
 
   document.addEventListener('DOMContentLoaded', function () {
-    console.log('ready');
     new Vue({
       el: '#on',
       data: {
@@ -294,7 +291,6 @@
         }
       },
       mounted: function () {
-        console.log("ready vue");
         var showInfoIndex = parseInt(localStorage.getItem('showInfoIndex'));
         if (showInfoIndex) this.hideInfo = showInfoIndex === 1;
 

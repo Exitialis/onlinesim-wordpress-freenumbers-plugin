@@ -56,5 +56,36 @@ class OnlinesimColors
       'section' => 'onlinesim_plugin',
       'label' => esc_html__('Numbers plugin actions color', 'onlinesim'),
     )));
+
+    $wp_customize->add_setting('button_color', array(
+      'default' => '#2196f3',
+      'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'button_color', array(
+      'section' => 'onlinesim_plugin',
+      'label' => esc_html__('Numbers plugin button color', 'onlinesim'),
+    )));
+
+    $wp_customize->add_setting('button_text_color', array(
+      'default' => '#fff',
+      'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'button_text_color', array(
+      'section' => 'onlinesim_plugin',
+      'label' => esc_html__('Numbers plugin button text color', 'onlinesim'),
+    )));
+
+    $wp_customize->add_setting('button_text', array(
+      'default' => 'PRIVATE NUMBERS + BONUS',
+      'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'button_text', array(
+      'section' => 'onlinesim_plugin',
+      'label' => esc_html__('Numbers plugin button text', 'onlinesim'),
+      'type' => 'text'
+    )));
   }
 }

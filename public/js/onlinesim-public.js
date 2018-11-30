@@ -165,7 +165,6 @@
         hideInfo: false,
         instance: false,
         infoblock: false,
-
         country: null,
         countries: {}
 
@@ -173,6 +172,14 @@
       computed: {
         lang() {
           return document.documentElement.lang.split('-')[0]
+        },
+        link() {
+          let refEl = document.getElementById('qwertasdfgh');
+          if (!refEl) {
+            console.error('No ref!');
+            return 'https://onlinesim.ru';
+          }
+          return 'https://onlinesim.ru?ref=' + document.getElementById('qwertasdfgh').innerText
         }
       },
       watch: {

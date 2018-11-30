@@ -93,6 +93,7 @@ class Onlinesim_Public
       .free-numbers__pagination-block > li > a.active {
         background-color: <?php echo $primary_color; ?>;
       }
+
       <?php
 
     }
@@ -133,6 +134,27 @@ class Onlinesim_Public
         color: <?php echo $actionsColor; ?>;
       }
       .
+      <?php
+
+    }
+
+    $buttonColor = get_theme_mod('button_color', '');
+    if (!empty($buttonColor)) {
+      ?>
+      .on-link a {
+        background-color: <?php echo $buttonColor; ?>;
+        border: 1px solid <?php echo $buttonColor; ?>;
+      }
+      <?php
+
+    }
+
+    $buttonTextColor = get_theme_mod('button_text_color', '');
+    if (!empty($buttonColor)) {
+      ?>
+      .on-link a {
+        color: <?php echo $buttonTextColor; ?>;
+      }
       <?php
 
     }
@@ -195,15 +217,21 @@ class Onlinesim_Public
 
   }
 
-  public function shortcode()
+  public function shortcode($attrs)
   {
+    $ref = shortcode_atts(array(
+      'ref' => '154'
+    ), $attrs)['ref'];
     wp_register_style('onlinesim-inline-style', false, array($this->plugin_name));
     wp_enqueue_style('onlinesim-inline-style');
     $custom_css = $this->getCustomCss();
     wp_add_inline_style('onlinesim-inline-style', $custom_css);
 
+    $html = file_get_contents(__DIR__ . '/plugin.html');
+    $buttonText = get_theme_mod('button_text', 'PRIVATE NUMBERS + BONUS');
+    $html = str_replace('$buttonText', $buttonText, $html);
 
-    return file_get_contents(__DIR__ . '/plugin.html');
+    return '<p hidden id="qwertasdfgh">' . $ref . '</p>' . $html;
   }
 
 }

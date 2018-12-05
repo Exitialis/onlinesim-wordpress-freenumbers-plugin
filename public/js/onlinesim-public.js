@@ -177,9 +177,9 @@
           let refEl = document.getElementById('qwertasdfgh');
           if (!refEl) {
             console.error('No ref!');
-            return 'https://onlinesim.ru';
+            return 'https://onlinesim.ru/en/auth/register';
           }
-          return 'https://onlinesim.ru?ref=' + document.getElementById('qwertasdfgh').innerText
+          return 'https://onlinesim.ru/en/auth/register?ref=' + document.getElementById('qwertasdfgh').innerText
         }
       },
       watch: {
